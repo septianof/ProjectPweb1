@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Fasilitas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #007BFF;
+            color: white;
+        }
+        .form-container {
+            margin: 20px;
+        }
+        .form-container input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+        .form-container button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kelola Fasilitas</h1>
+    </header>
+    <div class="form-container">
+        <form id="fasilitasForm">
+            <input type="text" id="fasilitasName" placeholder="Nama Fasilitas" required>
+            <button type="button" onclick="tambahFasilitas()">Tambah Fasilitas</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Fasilitas</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="fasilitasTableBody">
+            <!-- Data fasilitas akan ditampilkan di sini -->
+        </tbody>
+    </table>
+
+    <script>
+        let fasilitasList = [];
+
+        function tambahFasilitas() {
+            const fasilitasName = document.getElementById("fasilitasName").value.trim();
+            if (fasilitasName === "") {
+                alert("Nama fasilitas tidak boleh kosong!");
+                return;
+            }
+
+            fasilitasList.push(fasilitasName);
+            document.getElementById("fasilitasName").value = ""; // Kosongkan input
+            renderFasilitas();
+        }
+
+        function hapusFasilitas(index) {
+            if (confirm("Apakah Anda yakin ingin menghapus fasilitas ini?")) {
+                fasilitasList.splice(index, 1);
+                renderFasilitas();
+            }
+        }
+
+        function renderFasilitas() {
+            const tableBody = document.getElementById("fasilitasTableBody");
+            tableBody.innerHTML = "";
+
+            fasilitasList.forEach((fasilitas, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${fasilitas}</td>
+                    <td>
+                        <button onclick="hapusFasilitas(${index})">Hapus</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
